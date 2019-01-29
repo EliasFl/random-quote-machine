@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
 import { getRandomColor, getRandomQuote } from '../helpers';
-import quotes from '../reducers';
+import quotesReducer from '../reducers';
 
 const initialState = {
   quote: getRandomQuote(),
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const store = createStore(
-  quotes, initialState,
+  quotesReducer, initialState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 

@@ -1,35 +1,38 @@
 import React, { Component } from 'react';
 import './App.css';
-import store from './store';
 import { getRandomQuote } from './actions';
+
+//React-redux
+import { connect } from 'react-redux';
 
 class App extends Component {
 
   handleClick = () => {
-    store.dispatch(getRandomQuote());
+    this.props.getQuote();
   };
 
   render() {
-    document.body.style.backgroundColor = store.getState().color;
+    const color = this.props.color;
+    document.body.style.backgroundColor = color;
 
     const colorStyle = {
-      color: store.getState().color,
+      color: color,
     };
 
     const buttonsColor = {
-      backgroundColor: store.getState().color,
+      backgroundColor: color,
     };
 
-    const tweetURL = `https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text="${store.getState().quote.quote}" - ${store.getState().quote.author}`;
+    const tweetURL = `https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text="${this.props.quote.quote}" - ${this.props.quote.author}`;
 
     return ( 
       <div className="App">
         <div id='quoteBox'>
           <h2 style={colorStyle} id='quoteText'>
             <i className="fas fa-quote-left"></i>
-            {store.getState().quote.quote}
+            {this.props.quote.quote}
           </h2>
-          <span style={colorStyle} className='quoteAuthor'>- {store.getState().quote.author}</span>
+          <span style={colorStyle} className='quoteAuthor'>- {this.props.quote.author}</span>
           <div id='buttons'>
             <a 
             style={buttonsColor} 
@@ -47,4 +50,21 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    color: state.color,
+    quote: state.quote
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getQuote: () => {
+      dispatch(getRandomQuote);
+    }
+  }
+};
+
+const Container = connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default Container;

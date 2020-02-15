@@ -59,9 +59,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getQuote: () => {
-      dispatch(getRandomQuote);
-    }
+    getQuote: () => dispatch(getRandomQuote())
   }
 };
 
